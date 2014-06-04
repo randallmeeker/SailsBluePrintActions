@@ -1,4 +1,4 @@
 SailsBluePrintActions
 =====================
 
-Custom blueprints that attach query params to all actions (including those that utilize findone)
+Custom blueprints that attach 'where' query params (found in req.options.where) to all actions, include those that use findOne.
