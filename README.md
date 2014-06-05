@@ -4,7 +4,7 @@ SailsBluePrintActions
 Custom blueprint action that:
 
 ##Attach 'where' query params
-Uses req.options.where to limit criteria on all actions, default sails.js blueprint actions only do this on the find. This is usefull if you want to limit your record set that the user can see by adding criteria to the req.options.where in a policy.
+Uses req.options.where to limit criteria on all actions. Default sails.js blueprint actions only do this on the find action. This is usefull if you want to limit your record set so that the user can see by adding criteria to the req.options.where in a policy. Example, a user should only see the records he / she creates themselves. By adding {userId : 1} to the req.options.where in a policy, we have now limited their access. 
 
 ##Add Pagination info to the find action
 Basically it will return the following
