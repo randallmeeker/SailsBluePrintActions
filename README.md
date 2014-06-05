@@ -16,6 +16,7 @@ Uses req.options.where to limit criteria on all actions. Default sails.js bluepr
   start: 40
   end: 70
   total: 198
+  limit: 30
   criteria: {
    companyId: 1
   }
