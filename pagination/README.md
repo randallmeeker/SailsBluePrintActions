@@ -5,7 +5,7 @@ This will accept and insert a range header with with pagination info
 Request Header - Range : 20-30
 Respose Header - Range : 20-30/100
 
-##paginationInBody
+##inBody
 This will return pagination info in the body
 **api.com/events?companyId=1** will return the following
 ```
