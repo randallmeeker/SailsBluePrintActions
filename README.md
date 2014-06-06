@@ -1,39 +1,13 @@
 SailsBluePrintActions
 =====================
+To install, place the action files (find.js, findone.js ect . . .) in your api/blueprints folder
 
-To install, place the files in the /blueprints folder in your api/blueprints folder
+##What is this? 
+Sails.js now has custom blueprint actions that will overide the default actions on your api. I put this together in hopes that we could share different tricks and techniques to perform various tasks that might be outside the current core of the sails.js project. 
 
-What is this? Custom blueprint actions that:
+Sails.js docs on blueprints and custom actions
+http://beta.sailsjs.org/#/documentation/reference/Blueprints
 
-##Attach 'where' query params
-Uses req.options.where to limit criteria on all actions. Default sails.js blueprint actions only do this on the find action. This is usefull if you want to limit your record sets after checking access in a policy. Example, a user should only see the records he / she creates themselves. By adding {userId : req.session.user.id} to the req.options.where object in a policy, we have now limited their access provided all the records being accessed have a userId field to filter on.
+These files were added with the inital commit being the default action provided by sails, so people could see the changes made, thus giving them the ability to cherry pick and creat their own custom action. 
 
-##Add Pagination info to the find action
-**api.com/events?companyId=1** will return the following
-```
-{
- info: {
-  start: 40
-  end: 70
-  total: 198
-  limit: 30
-  criteria: {
-   companyId: 1
-  }
- }
- items: [
-  {
-   company: 1
-   id: 41
-   name: "Franks Condos"
-  }
-  {
-   company: 1
-   id: 42
-   name: "Bobs Filmfest"
-  }
-  {...}
- ]
-} 
-```
-
+Please make suggestions on how this can be better orgainized or contribute your own custom actions!
