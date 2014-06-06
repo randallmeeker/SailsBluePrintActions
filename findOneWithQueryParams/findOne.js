@@ -2,7 +2,7 @@
  * Module dependencies
  */
 var util = require('util'),
-  actionUtil = require('../actionUtil');
+  actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 
 
 
@@ -26,7 +26,7 @@ module.exports = function findOneRecord (req, res) {
   var Model = actionUtil.parseModel(req);
   var pk = actionUtil.requirePk(req);
 
-  var query = Model.findOne(pk);
+  var query = Model.findOne(pk).where(req.options.where);
   query = actionUtil.populateEach(query, req);
   query.exec(function found(err, matchingRecord) {
     if (err) return res.serverError(err);

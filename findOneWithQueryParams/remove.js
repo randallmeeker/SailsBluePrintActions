@@ -1,7 +1,7 @@
 /**
  * Module dependencies
  */
-var actionUtil = require('../actionUtil');
+var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
 
 
@@ -38,10 +38,10 @@ module.exports = function remove(req, res) {
   var childPk = actionUtil.parsePk(req);
 
   Model
-  .findOne(parentPk).exec(function found(err, parentRecord) {
+  .findOne(parentPk).where(req.options.where).exec(function found(err, parentRecord) {
     if (err) return res.serverError(err);
     if (!parentRecord) return res.notFound();
-    if (!parentRecord[relation]) return res.notFound();
+    if (!parentRecord[relation]) return res.notFound('Parent Record not found.');
 
     parentRecord[relation].remove(childPk);
     parentRecord.save(function(err) {

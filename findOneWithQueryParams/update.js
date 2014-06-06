@@ -2,7 +2,7 @@
  * Module dependencies
  */
 
-var actionUtil = require('../actionUtil');
+var actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 var util = require('util');
 var _ = require('lodash');
 
@@ -40,9 +40,9 @@ module.exports = function updateOneRecord (req, res) {
   // (Note: this could be achieved in a single query, but a separate `findOne`
   //  is used first to provide a better experience for front-end developers
   //  integrating with the blueprint API.)
-  Model.findOne(pk).exec(function found(err, matchingRecord) {
+  Model.findOne(pk).where(req.options.where).exec(function found(err, matchingRecord) {
     if (err) return res.serverError(err);
-    if (!matchingRecord) return res.notFound();
+    if (!matchingRecord) return res.notFound('No record found with the specified `id`.');
 
     Model.update(pk, values).exec(function updated(err, records) {
 
