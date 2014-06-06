@@ -7,3 +7,30 @@ Respose Header - Range : 20-30/100
 
 ##paginationInBody
 This will return pagination info in the body
+**api.com/events?companyId=1** will return the following
+```
+{
+ info: {
+  start: 40
+  end: 70
+  total: 198
+  limit: 30
+  criteria: {
+   companyId: 1
+  }
+ }
+ items: [
+  {
+   company: 1
+   id: 41
+   name: "Franks Condos"
+  }
+  {
+   company: 1
+   id: 42
+   name: "Bobs Filmfest"
+  }
+  {...}
+ ]
+} 
+```
