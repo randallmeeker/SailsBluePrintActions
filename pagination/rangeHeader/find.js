@@ -2,7 +2,7 @@
  * Module dependencies
  */
 var util = require('util'),
-  actionUtil = require('../actionUtil');
+  actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 
 
 
@@ -26,10 +26,21 @@ var util = require('util'),
 
 module.exports = function findRecords (req, res) {
 
+  // Get and Set range info from header
+  var rangeHeader = req.get('Range') || req.get('X-Range') || undefined;
+  var rePattern = new RegExp(/^items=(\d+)-(\d+)$/);
+  var rangeStart, rangeEnd;
+  if(rangeHeader){
+    var array= rangeHeader.match(rePattern);
+    rangeStart = array[1];
+    rangeEnd = array[2];
+  }
+  req.options.limit = rangeEnd - rangeStart;
+  req.options.skip = rangeStart;
+
   // Look up the model
   var Model = actionUtil.parseModel(req);
 
-  debugger;
   // If an `id` param was specified, use the findOne blueprint action
   // to grab the particular instance with its primary key === the value
   // of the `id` param.   (mainly here for compatibility for 0.9, where
@@ -59,7 +70,18 @@ module.exports = function findRecords (req, res) {
         actionUtil.subscribeDeep(req, record);
       });
     }
+    
+    if(rangeHeader){
+      Model.count(actionUtil.parseCriteria(req))
+        .exec(function(err, total){
+        if (err) return res.serverError(err);
 
-    res.ok(matchingRecords);
+        res.set('Content-Range','items ' + rangeStart + '-' + rangeEnd + '/' + total);        
+        res.ok(matchingRecords);        
+        });
+    } else {
+      res.ok(matchingRecords);  
+    }
+    
   });
 };
