@@ -4,10 +4,10 @@ These make changes to find.js to return pagination info.
 This will accept and insert a range header with with pagination info
 ```
 Request Header - Range : 20-30
-Respose Header - Range : 20-30/100
+Response Header - Range : 20-30/100
 or
 Request Header - X-Range : 20-30
-Respose Header - X-Range : 20-30/100
+Response Header - X-Range : 20-30/100
 ```
 
 ##inBody
