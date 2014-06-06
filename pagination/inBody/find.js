@@ -2,7 +2,7 @@
  * Module dependencies
  */
 var util = require('util'),
-  actionUtil = require('../actionUtil');
+  actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 
 
 
@@ -43,6 +43,10 @@ module.exports = function findRecords (req, res) {
   .limit( actionUtil.parseLimit(req) )
   .skip( actionUtil.parseSkip(req) )
   .sort( actionUtil.parseSort(req) );
+
+
+  
+
   // TODO: .populateEach(req.options);
   query = actionUtil.populateEach(query, req);
   query.exec(function found(err, matchingRecords) {
@@ -59,6 +63,27 @@ module.exports = function findRecords (req, res) {
       });
     }
 
-    res.ok(matchingRecords);
+    // get pagination info and wrap results in struct
+
+    var metaInfo,
+        criteria = actionUtil.parseCriteria(req),
+        skip = actionUtil.parseSkip(req),
+        limit = actionUtil.parseLimit(req);
+    
+    Model.count(criteria)
+      .exec(function(err, total){
+      if (err) return res.serverError(err);
+      
+      metaInfo = {
+        start : skip,
+        end : skip + limit,
+        limit : limit,
+        total : total,
+        criteria: criteria
+      };
+
+      res.ok({info: metaInfo, items: matchingRecords});
+
+    });
   });
 };
