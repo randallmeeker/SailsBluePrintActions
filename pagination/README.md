@@ -12,7 +12,7 @@ Response Header - X-Range : 20-30/100
 
 ##inBody
 This will return pagination info in the body
-**api.com/events?companyId=1** will return the following
+**api.com/events?companyId=1&skip=40&limit=30** will return the following
 ```
 {
  info: {
